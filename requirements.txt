@@ -1,0 +1,8 @@
+-sqlite3==0.0.0
+dill==0.2.4
+## !! Could not determine repository location
+lssoctl==0.0.1
+-e git+ssh://git@phabricator.ramcloud.io/diffusion/MBU/malibu.git@5ae9c9a4845d9296c851c6b7bfba673a2b6ea475#egg=malibu-master
+redis==2.10.5
+requests==2.8.1
+wheel==0.24.0
