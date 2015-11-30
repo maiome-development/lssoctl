@@ -60,7 +60,7 @@ class ConfigModule(module.CommandModule):
                 "Could not open or create configuration file at paths: {}".format(paths))
 
     def get_configuration(self):
-        """ Returns the configuration.Configuration instance used by
+        """ Returns the Configuration instance used by
             this module.
         """
 
@@ -191,11 +191,13 @@ class ConfigModule(module.CommandModule):
             Prints the current configuration.
         """
 
-        for section_name in self.__config.sections():
+        for section_name in self.__config.sections:
             section = self.__config.get_section(section_name)
             print 'Section [{}]:'.format(
                 ascii.style_text(ascii.FG_GREEN, section_name))
             for key, value in section.iteritems():
-                print '  {} -> {}'.format(key, value)
+                print '  {} -> {}'.format(
+                        ascii.style_text(ascii.FG_LCYAN, key),
+                        ascii.style_text(ascii.FG_LPURPLE, value))
             print ''
 

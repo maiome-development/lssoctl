@@ -95,7 +95,7 @@ class HelpModule(module.CommandModule):
         print "{:>24s}".format(
                 ascii.style_text(ascii.FG_GREEN, 'Subcommands'))
 
-        modules = self.__loader._ModuleLoader__modules
+        modules = self.__loader.modules
         for module in modules:
             if module.get_base() == mod_name:
                 for sub, helpstr in module.get_help().iteritems():
