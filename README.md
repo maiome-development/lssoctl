@@ -36,10 +36,18 @@ Roadmap
 =======
 
 - [ ] Auth and session log management
-  - [ ] `log:view` - Show individual or all logs in pretty printed JSON
+  - [X] `log:view` - Show individual or all logs in pretty printed JSON
   - [ ] `log:delete` - Delete individual or ranges of logs
   - [ ] `log:clear` - Clear an entire log
-  - [ ] `log:raw` - Dump the raw log (full only)
+- [ ] Session management
+  - [ ] `session:list` - Show active sessions in the Redis
+  - [ ] `session:kill` - Kill a session by ID
+  - [ ] `session:info` - View all info for a session, including checkins
+- [ ] Token management
+  - Requires backend support
+  - Tokens used for API access, HTTP basic auth, etc.
+- [ ] Status information
+  - `status:get` - Simply displays status of LSSO, SSO backend (`/_health` or `/_ping`), Redis
 
 
 Contributing
