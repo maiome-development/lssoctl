@@ -134,6 +134,7 @@ class ConfigModule(module.CommandModule):
         lb = self.__config.add_section('log_buckets')
         lb.set('auth', 'log:auth')
         lb.set('session', 'log:session')
+        lb.set('api', 'log:api')
 
         print "{}".format(
             ascii.style_text(ascii.STYLE_BOLD, "Configuration initialized at {}.".format(
