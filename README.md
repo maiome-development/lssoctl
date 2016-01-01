@@ -40,11 +40,13 @@ Roadmap
   - [ ] `log:delete` - Delete individual or ranges of logs
   - [ ] `log:clear` - Clear an entire log
 - [ ] Session management
-  - [ ] `session:list` - Show active sessions in the Redis
+  - [X] `session:list` - Show active sessions in the Redis
   - [ ] `session:kill` - Kill a session by ID
   - [ ] `session:info` - View all info for a session, including checkins
 - [ ] Token management
+  - [ ] `token:create-access` - Create an access token for usage.
   - Requires backend support
+    - Other API Tokens (beyond access tokens)?
   - Tokens used for API access, HTTP basic auth, etc. (differ from access tokens?)
 - [ ] Status information
   - `status:get` - Simply displays status of LSSO, SSO backend (`/_health` or `/_ping`), Redis
