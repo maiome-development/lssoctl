@@ -45,7 +45,7 @@ Roadmap
   - [ ] `session:info` - View all info for a session, including checkins
 - [ ] Token management
   - Requires backend support
-  - Tokens used for API access, HTTP basic auth, etc.
+  - Tokens used for API access, HTTP basic auth, etc. (differ from access tokens?)
 - [ ] Status information
   - `status:get` - Simply displays status of LSSO, SSO backend (`/_health` or `/_ping`), Redis
 

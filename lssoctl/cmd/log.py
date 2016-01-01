@@ -19,17 +19,8 @@ class LogModule(module.CommandModule):
         self.__loader = loader
 
         with self.__loader.get_argument_parser() as ap:
-            ap.add_option_mapping('A', 'auth')
-            ap.add_option_mapping('I', 'api')
-            ap.add_option_mapping('S', 'session')
             ap.add_option_mapping('P', 'pretty')
 
-            ap.add_option_description('auth', 'Specify auth log bucket')
-            ap.add_option_description('A', 'See also: auth')
-            ap.add_option_description('session', 'Specify session log bucket')
-            ap.add_option_description('S', 'See also: session')
-            ap.add_option_description('api', 'Specify API log bucket')
-            ap.add_option_description('I', 'See also: api')
             ap.add_option_description('pretty', 'Pretty print output')
             ap.add_option_description('P', 'See also: pretty')
 
@@ -43,12 +34,13 @@ class LogModule(module.CommandModule):
         self.register_subcommand("view", self.log_view)
 
     def log_view(self, *args, **kw):
-        """ log:view [--auth|-A] [--session|-S] [--api|-I] [--pretty|-P]
+        """ log:view [--pretty|-P] [list,of,buckets]
 
             Dumps log data out of Redis.
+            Requires config section [redis] to be populated and valid.
         """
 
-        if 'args' in kw: 
+        if 'args' in kw:
             argparser = kw['args']
         else:
             argparser = self.__loader.get_argument_parser()
@@ -64,29 +56,27 @@ class LogModule(module.CommandModule):
 
         rd_prefix = redis_conf.get_string('key_prefix', 'lsso:')
 
-        log_grab = []
-        if argparser.options.get('auth', None):
-            bucket = lb_conf.get_string('auth', 'log:auth')
-            log_grab.append("%s%s" % (rd_prefix, bucket))
+        # parameter arrangement:
+        #  0  - script name
+        #  1  - subcommand name
+        #  2: - arguments to subcommand
+        try: buckets = argparser.parameters[2]
+        except (IndexError) as e:
+            return False
 
-        if argparser.options.get('session', None):
-            bucket = lb_conf.get_string('session', 'log:session')
-            log_grab.append("%s%s" % (rd_prefix, bucket))
+        buckets = buckets.split(",")
 
-        if argparser.options.get('api', None):
-            bucket = lb_conf.get_string('api', 'log:api')
-            log_grab.append("%s%s" % (rd_prefix, bucket))
-
-        if len(log_grab) == 0:
-            print "Specify log buckets with --auth and/or --session and/or --api"
-            return
-
-        for bucket in log_grab:
+        for _bucket in buckets:
+            bucket = "%slog:%s" % (rd_prefix, _bucket)
             logs = rdc.lrange(bucket, 0, -1)
+            fulllog = []
             for log in logs:
-                if argparser.options.get('pretty', False):
-                    log = json.loads(log)
-                    print json.dumps(log, indent = 2, sort_keys = True)
-                else:
-                    print log
+                fulllog.append(json.loads(log))
+
+            if argparser.options.get('pretty', False):
+                _logs = {"%s_log" % (_bucket): fulllog}
+                print json.dumps(_logs, indent = 2, sort_keys = True)
+            else:
+                _logs = {"%s_log" % (_bucket): fulllog}
+                print _logs
 
